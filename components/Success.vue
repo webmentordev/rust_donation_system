@@ -1,0 +1,9 @@
+<template>
+    <section class="fixed bottom-3 left-3 p-6 rounded-lg bg-black text-white flex items-center shadow-lg">
+        <img src="https://api.iconify.design/ic:baseline-check-circle-outline.svg?color=%233ad237" width="30" alt="Spinner">
+        <p class="ml-2 text-lg price font-semibold">{{ text }}</p>
+    </section>
+</template>
+<script setup>
+    defineProps(['text'])
+</script>
