@@ -4,7 +4,7 @@
             <nuxt-link to="/">Home</nuxt-link>
             <ul class="flex items-center font-semibold">
                 <nuxt-link class="ml-8" to="/">Home</nuxt-link>
-                <nuxt-link class="ml-8" to="/">Store</nuxt-link>
+                <nuxt-link class="ml-8" to="/store">Store</nuxt-link>
                 <nuxt-link class="ml-8" to="/dashboard">Dashboard</nuxt-link>
             </ul>
         </div>
