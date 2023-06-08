@@ -86,4 +86,13 @@ class ServerController extends Controller
             'data' => $server_info
         ], 200);
     }
+
+    public function updateStatus($id){
+        $result = Server::find($id);
+        $result->is_active = !$result->is_active;
+        $result->save();
+        return response()->json([
+            'message' => 'Server status has been changed!'
+        ], 200);
+    }
 }

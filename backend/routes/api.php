@@ -11,6 +11,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 Route::get('servers', [ServerController::class, 'index']);
 Route::get('servers/fetch', [ServerController::class, 'fetch']);
 Route::get('servers/fetch/single/{slug}', [ServerController::class, 'single']);
+Route::patch('server/update/status/{id}', [ServerController::class, 'updateStatus']);
 Route::post('servers', [ServerController::class, 'store']);
 
 // Authentication Routes

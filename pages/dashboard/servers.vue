@@ -17,22 +17,8 @@
             </div>
         </form>
         <div v-if="servers.length">
-            <div class="bg-dark p-6 rounded-lg mb-3 flex" v-for="(server, index) in servers" :key="index">
-                <NuxtImg :src="server.image" width="150px" quality="20" class="rounded-lg" />
-                <div class="ml-6">
-                    <div class="flex items-center mb-1 border-b py-3 border-white/20">
-                        <span class="text-white/60 mr-2">Server</span>
-                        <h3 class="font-semibold text-white">{{ server.name }}</h3>
-                        <NuxtLink :to='"/store/"+server.slug' class="bg-rust px-2 ml-3 font-semibold rounded-lg text-sm py-[2px]">Visit</NuxtLink>
-                    </div>
-                    <div class="flex text-white flex-col">
-                        <div class="flex items-center">
-                            <span class="text-white/60">Token —</span>
-                            <p class="p-2 rounded-lg bg-dark text-white token">{{ server.token }}</p>
-                        </div>
-                        <p class="text-rust">{{ server.created }}</p>
-                    </div>
-                </div>
+            <div class="bg-dark p-6 rounded-lg mb-3 flex relative" v-for="(server, index) in servers" :key="index">
+                <ServerItem :server="server" @clickEvent="refreshData" />
             </div>
         </div>
         <p v-else class="text-lg text-center">{{ loadedStatus }}</p>
@@ -57,6 +43,10 @@
     onMounted(() => {
         fetchServer();
     })
+
+    const refreshData = () => {
+        fetchServer();
+    }
 
     function fetchServer(){
         axios.get('/api/servers')
