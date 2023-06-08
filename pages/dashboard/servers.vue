@@ -23,14 +23,14 @@
                     <div class="flex items-center mb-1 border-b py-3 border-white/20">
                         <span class="text-white/60 mr-2">Server</span>
                         <h3 class="font-semibold text-white">{{ server.name }}</h3>
-                        <a :href="server.slug" class="bg-rust px-2 ml-3 font-semibold rounded-lg text-sm py-[2px]">Visit</a>
+                        <NuxtLink :to='"/store/"+server.slug' class="bg-rust px-2 ml-3 font-semibold rounded-lg text-sm py-[2px]">Visit</NuxtLink>
                     </div>
                     <div class="flex text-white flex-col">
                         <div class="flex items-center">
                             <span class="text-white/60">Token —</span>
                             <p class="p-2 rounded-lg bg-dark text-white token">{{ server.token }}</p>
                         </div>
-                        <p class="text-rust">{{ Date(server.created_at).toLocaleString() }}</p>
+                        <p class="text-rust">{{ server.created }}</p>
                     </div>
                 </div>
             </div>

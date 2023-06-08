@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxt/image'
   ],
-  ssr:false,
+  ssr: false,
   runtimeConfig: {
     public: {
       url: "http://localhost:8000",

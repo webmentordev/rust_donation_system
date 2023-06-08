@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Server;
 use Illuminate\Http\Request;
 
@@ -52,16 +53,33 @@ class ServerController extends Controller
         ], 201);
     }
 
-
     public function fetch()
     {
-        $servers = Server::get();
+        $servers = Server::where('is_active', true)->get();
         $server_info = $servers->map(function ($data) {
             $data->name = $data->name;
             $data->image = config('app.url').'/storage/'.$data->image;
             $data->slug = $data->slug;
             $data->is_active = $data->is_active;
-            $data->created = $data->created_at->diffForHumans().'-'.$data->created_at;
+            $data->created = $data->created_at->format('D d/m/Y H:i:s A');
+            $data->token= null;
+            return $data;
+        });
+        return response()->json([
+            'data' => $server_info
+        ], 200);
+    }
+
+    public function single($slug)
+    {
+        $servers = Server::where('slug', $slug)->where('is_active', true)->get();
+        $server_info = $servers->map(function ($data) {
+            $data->name = $data->name;
+            $data->image = config('app.url').'/storage/'.$data->image;
+            $data->slug = $data->slug;
+            $data->is_active = $data->is_active;
+            $data->created = $data->created_at->format('D d/m/Y H:i:s A');
+            $data->token= null;
             return $data;
         });
         return response()->json([
