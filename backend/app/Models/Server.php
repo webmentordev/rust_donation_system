@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Server extends Model
 {
@@ -16,4 +17,8 @@ class Server extends Model
         'is_active',
         'token'
     ];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

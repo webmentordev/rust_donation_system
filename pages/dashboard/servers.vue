@@ -6,11 +6,11 @@
             <Loading v-if="isLoading" text="Posting data..." />
             <div class="w-full mr-2">
                 <Label text="Server name" />
-                <Input placeholder="Server Name" v-model="name" />
+                <Input placeholder="Server Name" v-model="name" required />
             </div>
             <div class="w-full mr-2">
                 <Label text="Server Image <500KB*" />
-                <Input type="file" @change="uploadFile" accept="image/*" placeholder="Server Name" />
+                <Input type="file" @change="uploadFile" accept="image/*" required />
             </div>
             <div class="mt-6">
                 <Button text="Create"/>

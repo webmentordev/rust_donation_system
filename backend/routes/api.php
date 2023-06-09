@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServerController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,11 @@ Route::get('servers/fetch', [ServerController::class, 'fetch']);
 Route::get('servers/fetch/single/{slug}', [ServerController::class, 'single']);
 Route::patch('server/update/status/{id}', [ServerController::class, 'updateStatus']);
 Route::post('servers', [ServerController::class, 'store']);
+
+Route::get('products', [ProductController::class, 'index']);
+Route::post('product', [ProductController::class, 'store']);
+
+
 
 // Authentication Routes
 Route::post('login', [AuthController::class, 'login']);

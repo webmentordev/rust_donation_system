@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Server;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -18,6 +19,11 @@ class Product extends Model
         'stripe_url',
         'price',
         'is_active',
-        'description'
+        'description',
+        'currency'
     ];
+
+    public function server(){
+        return $this->belongsTo(Server::class);
+    }
 }

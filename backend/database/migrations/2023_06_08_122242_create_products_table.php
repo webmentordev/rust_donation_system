@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('server_id');
+            $table->foreignId('server_id')->constrained()->onDelete('cascade');
             $table->string('product_id');
             $table->string('price_id');
+            $table->string('currency');
             $table->string('image');
             $table->text('stripe_url');
             $table->decimal('price', 10, 2);
             $table->boolean('is_active')->default(true);
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
     }

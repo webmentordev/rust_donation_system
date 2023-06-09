@@ -14,7 +14,13 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Rust Webstore — RustyUranium'
+      title: 'Rust Webstore — RustyUranium',
+      link: [
+        {
+          rel: 'shortcut icon',
+          href: "https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg"
+        }
+      ]
     }
   }
 })
