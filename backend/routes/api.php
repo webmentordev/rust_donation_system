@@ -17,6 +17,7 @@ Route::post('servers', [ServerController::class, 'store']);
 
 Route::get('products', [ProductController::class, 'index']);
 Route::post('product', [ProductController::class, 'store']);
+Route::patch('product/update/status/{id}', [ProductController::class, 'updateStatus']);
 
 
 

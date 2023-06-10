@@ -4,6 +4,10 @@
             <h1 class="text-3xl font-semibold">Products List</h1>
             <Button @click="popUp = !popUp" text="Create" />
         </div>
+        <div v-if="products.length" class="bg-dark p-6 rounded-lg mb-3 flex relative" v-for="(product, index) in products" :key="index">
+            <ProductItem :product="product" @clickEvent="refreshData" />
+        </div>
+        <p v-else class="text-lg text-center mt-3">{{ loadedStatus }}</p>
     </section>
     <section v-if="popUp" @click.self="popUp = false" class="fixed top-0 left-0 bg-dark bg-opacity-90 backdrop-blur h-screen w-full flex items-center justify-center">
         <div class="bg-white py-6 max-w-2xl p-6 rounded-lg">
@@ -76,6 +80,10 @@
         fetchProducts();
     })
 
+    const refreshData = () => {
+        fetchProducts();
+    }
+
     const uploadFile = (event) => {
         file.value = event.target.files[0];
     };
@@ -99,7 +107,7 @@
             if(products.value.length){
                 loadedStatus.value = "Loaded"
             }else{
-                loadedStatus.value = "No server data exist."
+                loadedStatus.value = "No products data exist."
             }
         });
     }
@@ -115,7 +123,6 @@
             description: description.value,
             currency: currency.value
         };
-        console.log(formData)
         axios.get('/sanctum/csrf-cookie')
         .then(() => {
             axios.post('/api/product', formData, {
@@ -123,7 +130,8 @@
             }).then(() => {
                 isSuccess.value = true;
                 isLoading.value = false;
-                fetchServer();
+                fetchProducts();
+
             }).catch(() => {
                 isLoading.value = false;
             });

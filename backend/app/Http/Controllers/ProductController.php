@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(){
+        $products = Product::latest()->with('server')->get();
+        $product_info = $products->map(function ($data) {
+            $data->created = $data->created_at->format('D d/m/Y H:i:s A');
+            $data->image = config('app.url').'/storage/'.$data->image;
+            return $data;
+        });
         return response()->json([
             'status' => 201,
-            'data' => Product::latest()->with('server')->get()
+            'data' => $product_info
         ], 201);
     }
 
@@ -58,5 +64,14 @@ class ProductController extends Controller
             'status' => 201,
             'message' => 'Product has been created!'
         ], 201);
+    }
+
+    public function updateStatus($id){
+        $result = Product::find($id);
+        $result->is_active = !$result->is_active;
+        $result->save();
+        return response()->json([
+            'message' => 'Package status has been changed!'
+        ], 200);
     }
 }
