@@ -10,13 +10,15 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         $fields = $request->validate([
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'required|unique:users,email|max:255|email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed|min:5|max:255',
+            'steam_id' => 'required|numeric|unique:users,steam_id|min:17'
         ]);
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
+            'steam_id' => $fields['steam_id'],
             'password' => bcrypt($fields['password']),
         ]);
         $token = $user->createToken('mytoken')->plainTextToken;

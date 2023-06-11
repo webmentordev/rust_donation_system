@@ -17,7 +17,7 @@ class ServerController extends Controller
             $data->slug = $data->slug;
             $data->is_active = $data->is_active;
             $data->token = $data->token;
-            $data->created = $data->created_at->diffForHumans().'-'.$data->created_at;
+            $data->created = $data->created_at->format('D d/m/Y H:i:s A');
             return $data;
         });
         return response()->json([
