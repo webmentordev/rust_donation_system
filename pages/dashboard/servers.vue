@@ -9,7 +9,7 @@
                 <Input placeholder="Server Name" v-model="name" required />
             </div>
             <div class="w-full mr-2">
-                <Label text="Server Image <500KB*" />
+                <Label text="Server Image <500KB* (825x825)" />
                 <Input type="file" @change="uploadFile" accept="image/*" required />
             </div>
             <div class="mt-6">
@@ -79,6 +79,9 @@
                 isSuccess.value = true;
                 isLoading.value = false;
                 fetchServer();
+                setTimeout(() => {
+                    isSuccess.value = false;
+                }, 3000);
             }).catch(() => {
                 isLoading.value = false;
             });

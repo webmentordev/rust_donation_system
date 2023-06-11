@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('product_id');
             $table->string('price_id');
             $table->string('currency');
+            $table->text('slug');
             $table->string('image');
             $table->text('stripe_url');
             $table->decimal('price', 10, 2);

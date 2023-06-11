@@ -10,7 +10,7 @@ class ServerController extends Controller
 {
     public function index()
     {
-        $servers = Server::get();
+        $servers = Server::with('products')->get();
         $server_info = $servers->map(function ($data) {
             $data->name = $data->name;
             $data->image = config('app.url').'/storage/'.$data->image;

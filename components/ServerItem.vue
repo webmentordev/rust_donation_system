@@ -1,7 +1,7 @@
 <template>
     <Active @click="activeHandler" v-if="server.is_active == 1" />
     <Deactive @click="activeHandler" v-if="server.is_active == 0"/>
-    <NuxtImg :src="server.image" width="150px" quality="20" class="rounded-lg" />
+    <NuxtImg :src="server.image" width="150px" height="150px" quality="20" class="rounded-lg" />
     <div class="ml-6">
         <div class="flex items-center mb-1 border-b py-3 border-white/20">
             <span class="text-white/60 mr-2">Server</span>
@@ -12,6 +12,10 @@
             <div class="flex items-center">
                 <span class="text-white/60">Token —</span>
                 <p class="p-2 rounded-lg bg-dark text-white token">{{ server.token }}</p>
+            </div>
+            <div class="flex items-center">
+                <span class="text-white/60">Packages —</span>
+                <p class="p-2 rounded-lg bg-dark text-rust">{{ server.products.length }}</p>
             </div>
             <div class="flex items-center">
                 <span class="text-white/60">Created —</span>

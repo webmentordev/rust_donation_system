@@ -131,6 +131,9 @@
                 isSuccess.value = true;
                 isLoading.value = false;
                 fetchProducts();
+                setTimeout(() => {
+                    isSuccess.value = false;
+                }, 3000);
 
             }).catch(() => {
                 isLoading.value = false;

@@ -16,6 +16,7 @@ class Product extends Model
         'product_id',
         'price_id',
         'image',
+        'slug',
         'stripe_url',
         'price',
         'is_active',

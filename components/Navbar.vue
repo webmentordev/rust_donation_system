@@ -10,6 +10,7 @@
                 <nuxt-link v-if="!auth" class="ml-8" to="/auth/login">Login</nuxt-link>
                 <nuxt-link v-if="!auth" class="ml-8" to="/auth/signup">Signup</nuxt-link>
             </ul>
+            <Loading v-if="isLoading" text="Logging Out..." />
         </div>
     </nav>
 </template>
@@ -23,6 +24,7 @@
     
     const auth = useAuthState();
     const authState = ref(false);
+    const isLoading = ref(false);
     
     onMounted(() => {
         const cookie = useCookie('token');
@@ -32,6 +34,7 @@
         }
     })
     const logoutHandler = () => {
+        isLoading.value = true;
         const product = { name: 'Logged Out' };
         axios.get('/sanctum/csrf-cookie')
         .then(() => {
@@ -42,10 +45,12 @@
             }).then(() => {
                 auth.value = null;
                 authState.value = false;
+                isLoading.value = false;
                 useRouter().push('/auth/login');
             })
         }).catch((error) => {
-            error.response.data.message
+            isLoading.value = false;
+            console.log(error.response.data.message);
         });
     }
 </script>

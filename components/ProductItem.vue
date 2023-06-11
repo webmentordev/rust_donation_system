@@ -22,13 +22,11 @@
                 <p class="text-rust p-2">{{ product.created }}</p>
             </div>
         </div>
-        <div class="absolute right-4 top-3 text-white text-2xl price">
-            {{ product.price }}{{ product.currency }}
-        </div>
         <div class="absolute right-4 bottom-3">
             <Button @click="status = !status" text="Read" />
             <span v-if="status" class="w-[400px] fixed bg-white p-6 rounded-lg shadow-lg bottom-5 right-5" v-html="product.description"></span>
         </div>
+        <span class="price text-white absolute left-3 bottom-3">{{ product.price }} {{ product.currency }}</span>
         <Success v-if="isSuccess" text="Server status has changed!" />
         <Loading v-if="isLoading" text="Updating data..." />
     </div>
