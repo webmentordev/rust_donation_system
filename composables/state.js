@@ -1,0 +1,1 @@
+export const useAuthState = () => useState('usestate', () => null)
