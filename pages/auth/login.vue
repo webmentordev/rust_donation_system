@@ -16,6 +16,7 @@
                     <Button type="submit" text="Login Now"/>
                 </div>
             </form>
+            <Loading v-if="isLoading" text="Logging In..." />
             </div>
         </div>
     </section>
@@ -40,6 +41,8 @@
     const token = useCookie('token');
     const state = useAuthState();
 
+    const isLoading = ref(false);
+
     onMounted(() => {
         if(state.value){
             useRouter().push('/dashboard');
@@ -47,6 +50,7 @@
     })
 
     const loginHandler = () => {
+        isLoading.value = true;
         const formData = {
             email: email.value,
             password: password.value
@@ -57,6 +61,7 @@
             }).then((result) => {
                 token.value = result.data.token;
                 state.value = result.data.token;
+                isLoading.value = false;
                 useRouter().push('/dashboard');
             }).catch((error) => {
                 console.log(error);

@@ -7,8 +7,8 @@
                 <nuxt-link class="ml-8" to="/store">Store</nuxt-link>
                 <nuxt-link v-if="auth" class="ml-8" to="/dashboard">Dashboard</nuxt-link>
                 <button v-if="auth" @click="logoutHandler" class="ml-8">Logout</button>
-                <nuxt-link class="ml-8" to="/auth/login">Login</nuxt-link>
-                <nuxt-link class="ml-8" to="/auth/signup">Signup</nuxt-link>
+                <nuxt-link v-if="!auth" class="ml-8" to="/auth/login">Login</nuxt-link>
+                <nuxt-link v-if="!auth" class="ml-8" to="/auth/signup">Signup</nuxt-link>
             </ul>
         </div>
     </nav>
@@ -26,7 +26,7 @@
     
     onMounted(() => {
         const cookie = useCookie('token');
-        if(cookie){
+        if(cookie != null){
             auth.value = cookie
             authState.value = true
         }
