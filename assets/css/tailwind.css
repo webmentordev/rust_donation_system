@@ -23,3 +23,11 @@ body{
 .links .router-link-active, .links .router-link-exact-active{
     @apply text-rust;
 }
+
+.editor{
+    @apply flex flex-wrap
+}
+
+.editor button{
+    @apply p-1 border border-black rounded-sm m-1 text-sm;
+}

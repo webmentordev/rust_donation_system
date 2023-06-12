@@ -1,18 +1,7 @@
 <template>
     <section class="w-full">
-        <div class="flex pb-3 border-b border-gray-100 justify-between items-center">
-            <h1 class="text-3xl font-semibold">Products List</h1>
-            <Button @click="popUp = !popUp" text="Create" />
-        </div>
-        <div v-if="products.length" class="bg-dark p-6 rounded-lg mb-3 flex relative" v-for="(product, index) in products" :key="index">
-            <ProductItem :product="product" @clickEvent="refreshData" />
-        </div>
-        <p v-else class="text-lg text-center mt-3">{{ loadedStatus }}</p>
-    </section>
-    <section v-if="popUp" @click.self="popUp = false" class="fixed top-0 left-0 bg-dark bg-opacity-90 backdrop-blur h-screen w-full flex items-center justify-center">
-        <div class="bg-white py-6 max-w-2xl p-6 rounded-lg">
-            <h2 class="font-bold mb-3 text-3xl text-center">Create Server Product</h2>
-            <form @submit.prevent="uploadHandler" enctype="multipart/form-data" class="grid grid-cols-2 gap-3">
+        <h1 class="text-3xl font-semibold pb-3 border-b border-gray-100">Products List</h1>
+        <form @submit.prevent="uploadHandler" enctype="multipart/form-data" class="grid grid-cols-2 gap-3 py-6">
                 <Success v-if="isSuccess" text="Product has been created!" />
                 <Loading v-if="isLoading" text="Posting data..." />
                 <div class="w-full mr-2">
@@ -35,20 +24,21 @@
                     <Label text="Product Price" />
                     <Input type="number" v-model="price" step="0.01" required />
                 </div>
-
                 <div class="w-full col-span-2">
                     <Label text="Product Image <500KB*" />
                     <Input type="file" @change="uploadFile" accept="image/*" required />
                 </div>
-                <div class="w-full col-span-2">
-                    <Label text="Description" />
-                    <TextArea v-model="description" placeholder="Write description" required />
+                <div class="w-full col-span-2 mb-16">
+                    <Quill v-model:content="description"/>
                 </div>
                 <div class="w-full">
                     <Button type="submit" text="Create Product"/>
                 </div>
             </form>
+        <div v-if="products.length" class="bg-dark p-6 rounded-lg mb-3 flex relative" v-for="(product, index) in products" :key="index">
+            <ProductItem :product="product" @clickEvent="refreshData" />
         </div>
+        <p v-else class="text-lg text-center mt-3">{{ loadedStatus }}</p>
     </section>
 </template>
 
@@ -68,7 +58,6 @@
     
     const isLoading = ref(false);
     const isSuccess = ref(false);
-    const popUp = ref(false)
     
     const loadedStatus = ref("Loading...")
     
