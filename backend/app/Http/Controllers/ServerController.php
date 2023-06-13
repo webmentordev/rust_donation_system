@@ -72,7 +72,7 @@ class ServerController extends Controller
 
     public function single($slug)
     {
-        $servers = Server::where('slug', $slug)->where('is_active', true)->get();
+        $servers = Server::where('slug', $slug)->where('is_active', true)->with('products')->get();
         $server_info = $servers->map(function ($data) {
             $data->name = $data->name;
             $data->image = config('app.url').'/storage/'.$data->image;
@@ -80,6 +80,12 @@ class ServerController extends Controller
             $data->is_active = $data->is_active;
             $data->created = $data->created_at->format('D d/m/Y H:i:s A');
             $data->token= null;
+            $data->products = $data->products->map(function ($product){
+                $product->price_id = null;
+                $product->product_id = null;
+                $product->image = config('app.url').'/storage/'.$product->image;
+                return $product;
+            });
             return $data;
         });
         return response()->json([

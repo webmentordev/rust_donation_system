@@ -44,7 +44,7 @@
     
 
     definePageMeta({
-        layout: 'custom',
+        layout: 'auth-layout',
         middleware: 'guest'
     })
 
