@@ -10,14 +10,15 @@
                 </div>
                 <div class="w-full mr-2">
                     <Label text="Server" />
-                    <Select v-model="server_id" v-if="servers.length" required>
+                    <Select v-model="server_id" required>
                         <option value="" selected>—Select server—</option>
-                        <option v-for="(server, index) in servers" :key="index" :value="server.id">{{ server.name }}</option>
+                        <option v-if="servers.length" v-for="(server, index) in servers" :key="index" :value="server.id">{{ server.name }}</option>
+                        <option v-else value="">Please create a server first</option>
                     </Select>
                 </div>
                 <div class="w-full">
                     <Label text="Product Currency" />
-                    <Currency v-model="currency" required />
+                    <CurrencyItem v-model="currency" required />
                 </div>
                 
                 <div class="w-full">
@@ -47,7 +48,7 @@
     axios.defaults.withCredentials = true;
 
     const name = ref("")
-    const price = ref("");
+    const price = ref(0);
     const server_id = ref("");
     const file = ref("");
     const currency = ref("");
@@ -114,7 +115,7 @@
         };
         axios.get('/sanctum/csrf-cookie')
         .then(() => {
-            axios.post('/api/product', formData, {
+            axios.post('/api/products', formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             }).then(() => {
                 isSuccess.value = true;
@@ -124,8 +125,9 @@
                     isSuccess.value = false;
                 }, 3000);
 
-            }).catch(() => {
+            }).catch((error) => {
                 isLoading.value = false;
+                console.log(error)
             });
         }).catch((error) => {
             console.log(error)

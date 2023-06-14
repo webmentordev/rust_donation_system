@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Carbon\Carbon;
 use App\Models\Server;
 use Illuminate\Http\Request;
@@ -65,22 +66,23 @@ class ServerController extends Controller
 
     public function single($slug)
     {
-        $servers = Server::where('slug', $slug)->where('is_active', true)->with('products')->get();
-        $server_info = $servers->map(function ($data) {
-            $data->image = config('app.url').'/storage/'.$data->image;
-            $data->created = $data->created_at->format('D d/m/Y H:i:s A');
-            $data->token= null;
-            $data->products = $data->products->map(function ($product){
+        $server = Server::where('slug', $slug)->where('is_active', true)->get();
+        if(count($server)){
+            $products = Product::where('server_id', $server[0]->id)->where('is_active', true)->with('currency')->get();
+            $products = $products->map(function ($product){
                 $product->price_id = null;
                 $product->product_id = null;
                 $product->image = config('app.url').'/storage/'.$product->image;
                 return $product;
             });
-            return $data;
-        });
-        return response()->json([
-            'data' => $server_info
-        ], 200);
+            return response()->json([
+                'data' => $products
+            ], 200);
+        }else{
+            return response()->json([
+                'data' => []
+            ], 200);
+        }
     }
 
     public function updateStatus($id){

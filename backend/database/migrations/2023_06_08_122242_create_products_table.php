@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('server_id')->constrained()->onDelete('cascade');
             $table->string('product_id');
             $table->string('price_id');
-            $table->string('currency');
+            $table->foreignId('currency_id');
             $table->text('slug');
             $table->string('image');
             $table->text('stripe_url');

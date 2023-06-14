@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use App\Models\Server;
 use App\Models\Product;
 use Stripe\StripeClient;
@@ -23,14 +24,16 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        $request->validate([
+        $fields = $request->validate([
             'name' => 'required|max:255|unique:products,name',
             'image' => 'required|image|mimes:png,jpg,jpeg,webp|max:255',
             'server_id' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required',
-            'currency' => 'required|max:3',
+            'currency' => 'required|numeric|max:3',
         ]);
+
+        $currency = Currency::find($request->currency);
 
         $stripe = new StripeClient(config('app.stripe'));
         $product = $stripe->products->create([
@@ -38,7 +41,7 @@ class ProductController extends Controller
         ]);
         $price = $stripe->prices->create([
             'unit_amount' => $request->price * 100,
-            'currency' => $request->currency,
+            'currency' => $currency->code,
             'product' => $product['id'],
         ]);
         $paymentlink = $stripe->paymentLinks->create([
@@ -50,10 +53,11 @@ class ProductController extends Controller
             ],
             'allow_promotion_codes' => true
         ]);
+
         Product::create([
             'name' => $request->name,
             'server_id' => $request->server_id,
-            'currency' => $request->currency,
+            'currency_id' => $currency->id,
             'product_id' => $product['id'],
             'price_id' => $price['id'],
             'slug' => strtolower(str_replace(' ', '-', $request->name)),
@@ -78,26 +82,19 @@ class ProductController extends Controller
     }
 
 
-    public function product($server, $product){
-        $server = Server::where('slug', $server)->where('is_active', true)->get();
-        if(count($server)){
-            $product = Product::where('slug', $product)->where('is_active', true)->get();
-            if(count($product)){
-                $product = $product->map(function ($data) {
-                    $data->image = config('app.url').'/storage/'.$data->image;
-                    $data->is_active = $data->is_active;
-                    $data->product_id = null;
-                    $data->price_id = null;
-                    return $data;
-                });
-                return response()->json([
-                    'data' => $product
-                ], 200);
-            }else{
-                return response()->json([
-                    'data' => []
-                ], 200);
-            }
+    public function product($product){
+        $product = Product::where('slug', $product)->where('is_active', true)->with('currency')->get();
+        if(count($product)){
+            $product = $product->map(function ($data) {
+                $data->image = config('app.url').'/storage/'.$data->image;
+                $data->is_active = $data->is_active;
+                $data->product_id = null;
+                $data->price_id = null;
+                return $data;
+            });
+            return response()->json([
+                'data' => $product
+            ], 200);
         }else{
             return response()->json([
                 'data' => []

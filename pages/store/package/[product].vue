@@ -5,7 +5,7 @@
             <Loading v-if="isLoading" text="Processing..." />
             <div class="bg-gray-100 p-8 py-12  rounded-lg w-full mb-3">
                 <h3 class="text-slate-500/80 font-semibold text-[15px] mb-3">You've to pay</h3>
-                <span class="price font-semibold text-5xl mb-3">{{ product.price }}{{ product.currency }}</span>
+                <span class="price font-semibold text-5xl mb-3">{{ product.currency.symbol }}{{ product.price }}</span>
                 <div class="flex mt-3 mb-1">
                     <img src="https://api.iconify.design/ic:round-check-circle.svg?color=%2321b039" width="20" alt="Check">
                     <span class="font-semibold ml-2">How to claim?</span>
@@ -52,7 +52,7 @@
     })
 
     function fecthData(){
-        axios.get(`/api/product/fetch/${data.slug}/${data.product}`)
+        axios.get(`/api/product/${data.product}`)
         .then(result => {
             product.value = result.data.data[0]
             if(result.status == 200){
@@ -69,5 +69,6 @@
             isLoading.value = false;
             useRouter().push('/auth/login');
         }
+        isLoading.value = false;
     }
 </script>

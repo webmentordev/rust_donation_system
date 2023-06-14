@@ -21,10 +21,12 @@ class Product extends Model
         'price',
         'is_active',
         'description',
-        'currency'
+        'currency_id'
     ];
-
     public function server(){
         return $this->belongsTo(Server::class);
+    }
+    public function currency(){
+        return $this->belongsTo(Currency::class);
     }
 }
