@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Server;
 use App\Models\Product;
 use Stripe\StripeClient;
 use Illuminate\Http\Request;
@@ -74,5 +75,33 @@ class ProductController extends Controller
         return response()->json([
             'message' => 'Package status has been changed!'
         ], 200);
+    }
+
+
+    public function product($server, $product){
+        $server = Server::where('slug', $server)->where('is_active', true)->get();
+        if(count($server)){
+            $product = Product::where('slug', $product)->where('is_active', true)->get();
+            if(count($product)){
+                $product = $product->map(function ($data) {
+                    $data->image = config('app.url').'/storage/'.$data->image;
+                    $data->is_active = $data->is_active;
+                    $data->product_id = null;
+                    $data->price_id = null;
+                    return $data;
+                });
+                return response()->json([
+                    'data' => $product
+                ], 200);
+            }else{
+                return response()->json([
+                    'data' => []
+                ], 200);
+            }
+        }else{
+            return response()->json([
+                'data' => []
+            ], 200);
+        }
     }
 }
