@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServerController;
@@ -33,3 +34,7 @@ Route::get('product/{product}', [ProductController::class, 'product']);
 // Authentication Routes
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+
+// Coupons Routes
+Route::get('coupons', [CouponController::class, 'index']);
+Route::post('coupons', [CouponController::class, 'store']);
