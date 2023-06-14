@@ -74,13 +74,23 @@ class ProductController extends Controller
 
     public function updateStatus($id){
         $result = Product::find($id);
-        $result->is_active = !$result->is_active;
+        $value = !$result->is_active;
+        if($value == 1){
+            $newStatus = true;
+        }else if($value == 0){
+            $newStatus = false;
+        }
+        $result->is_active = $value;
         $result->save();
+        $stripe = new StripeClient(config('app.stripe'));
+        $stripe->products->update(
+            $result->product_id,
+            ['active' => $newStatus]
+          );
         return response()->json([
             'message' => 'Package status has been changed!'
         ], 200);
     }
-
 
     public function product($product){
         $product = Product::where('slug', $product)->where('is_active', true)->with('currency')->get();
