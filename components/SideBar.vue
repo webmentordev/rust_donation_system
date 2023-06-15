@@ -3,6 +3,7 @@
         <nuxt-link class="mb-3" to="/dashboard">Dashboard</nuxt-link>
         <nuxt-link class="mb-3" to="/dashboard/servers">Servers</nuxt-link>
         <nuxt-link class="mb-3" to="/dashboard/products">Products</nuxt-link>
-        <nuxt-link to="/dashboard/currency">Currency</nuxt-link>
+        <nuxt-link class="mb-3" to="/dashboard/currency">Currency</nuxt-link>
+        <nuxt-link to="/dashboard/coupons">Coupons</nuxt-link>
     </ul>
 </template>

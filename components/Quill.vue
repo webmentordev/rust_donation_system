@@ -22,7 +22,7 @@
         modules: {
             toolbar: toolbarOptions
         },
-        placeholder: 'Start writing here...',
+        placeholder: 'Compose here...',
         readOnly: false,
         theme: 'snow'
     });

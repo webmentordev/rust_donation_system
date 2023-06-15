@@ -50,10 +50,10 @@
     axios.defaults.baseURL = config.public.url
 
     onMounted(() => {
-        fetchServer();
+        fetchCurrency();
     })
 
-    function fetchServer(){
+    function fetchCurrency(){
         axios.get('/api/currencies')
         .then(result => {
             currencies.value = result.data.data
@@ -77,8 +77,7 @@
             axios.post('/api/currencies', formData).then(() => {
                 isSuccess.value = true;
                 isLoading.value = false;
-                fetchProducts();
-                fetchServer();
+                fetchCurrency();
                 setTimeout(() => {
                     isSuccess.value = false;
                 }, 3000);

@@ -33,5 +33,9 @@ body{
 }
 
 .description ul, .description ol{
-    @apply flex flex-col
+    @apply flex flex-col list-disc ml-6;
+}
+
+.description strong{
+    @apply font-semibold;
 }
