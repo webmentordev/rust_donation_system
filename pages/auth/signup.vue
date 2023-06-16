@@ -3,7 +3,7 @@
         <div class="max-w-2xl w-fit m-auto px-4">
             <div class="w-full p-6 bg-white rounded-lg">
                 <h1 class="text-3xl font-semibold mb-6">Create Account</h1>
-                <form @submit.prevent="signupHandler" class="flex flex-col">
+                <form @submit.prevent="signupHandler" class="flex flex-col mb-3">
                 <div class="w-full mr-2 mb-3">
                     <Label text="Username" />
                     <Input placeholder="Username" v-model="name" required />
@@ -28,6 +28,7 @@
                     <Button type="submit" text="Register"/>
                 </div>
             </form>
+            <p class="text-sm text-gray-500 text-center">Don't know your SteamID? Search <NuxtLink to="https://www.steamidfinder.com/" target="_blank" class="underline text-rust">here</NuxtLink> by username</p>
             <Success v-if="isSuccess" text="Account has been created!" />
             <Loading v-if="isLoading" text="Signing Up..." />
             </div>

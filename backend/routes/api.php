@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ProductController;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('checkout/{slug}', [CheckoutController::class, 'store']);
     Route::get('user', function(){
         return auth()->user();
     });

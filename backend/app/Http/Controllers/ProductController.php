@@ -60,7 +60,7 @@ class ProductController extends Controller
             'currency_id' => $currency->id,
             'product_id' => $product['id'],
             'price_id' => $price['id'],
-            'slug' => strtolower(str_replace(' ', '-', $request->name)),
+            'slug' => strtolower(str_replace(' ', '-', $request->name)).'-'.rand(10,100000),
             'price' => $request->price,
             'stripe_url' => $paymentlink['url'],
             'description' => $request->description,

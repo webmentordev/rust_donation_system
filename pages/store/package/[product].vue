@@ -69,6 +69,22 @@
             isLoading.value = false;
             useRouter().push('/auth/login');
         }
-        isLoading.value = false;
+        axios.get('/sanctum/csrf-cookie')
+        .then(() => {
+            console.log(token.value)
+            axios.post(`/api/checkout/${data.product}`, { login: "LoginAttempt" }, { headers: { 'Authorization': 'Bearer ' + token.value } })
+            .then((result) => {
+                isLoading.value = false;
+                if(result.status == 201){
+                    navigateTo(result.data.redirect, {external: true})
+                }
+            }).catch((error) => {
+                isLoading.value = false;
+                console.log(error)
+            });
+        }).catch((error) => {
+            isLoading.value = false;
+            console.log(error)
+        });
     }
 </script>

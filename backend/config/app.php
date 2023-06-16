@@ -18,6 +18,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'stripe' => env('STRIPE', ''),
+    'frontend' => env('FRONTEND_URL', ''),
 
     /*
     |--------------------------------------------------------------------------
