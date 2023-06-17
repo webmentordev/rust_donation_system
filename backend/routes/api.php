@@ -40,3 +40,7 @@ Route::post('register', [AuthController::class, 'register']);
 // Coupons Routes
 Route::get('coupons', [CouponController::class, 'index']);
 Route::post('coupons', [CouponController::class, 'store']);
+
+// Checkout Response Routes
+Route::get('success/{checkout:order_id}/success', [CheckoutController::class, 'success']);
+Route::get('cancel/{checkout:order_id}/cancel', [CheckoutController::class, 'cancel']);

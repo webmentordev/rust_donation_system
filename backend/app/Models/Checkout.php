@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Checkout extends Model
 {
@@ -18,4 +19,9 @@ class Checkout extends Model
         'url',
         'expire_at'
     ];
+
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
 }

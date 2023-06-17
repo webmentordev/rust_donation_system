@@ -49,4 +49,33 @@ class CheckoutController extends Controller
             'redirect' => $checkout['url']
         ], 201);
     }
+
+
+    public function success(Checkout $checkout){
+        if($checkout->status == 'pending'){
+            $checkout->status = 'completed';
+            $checkout->save();
+            return response()->json([
+                'data' => $checkout->load('product','product.currency')
+            ], 201);
+        }elseif($checkout->status == 'completed'){
+            return response()->json([
+                'data' => $checkout->load('product','product.currency')
+            ], 201);
+        }
+    }
+
+    public function cancel(Checkout $checkout){
+        if($checkout->status == 'pending'){
+            $checkout->status = 'cancelled';
+            $checkout->save();
+            return response()->json([
+                'data' => $checkout->load('product','product.currency')
+            ], 201);
+        }elseif($checkout->status == 'cancelled'){
+            return response()->json([
+                'data' => $checkout->load('product','product.currency')
+            ], 201);
+        }
+    }
 }
