@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('checkout/{slug}', [CheckoutController::class, 'store']);
+    
+    Route::post('success/{checkout:order_id}', [CheckoutController::class, 'success']);
+    Route::post('cancel/{checkout:order_id}', [CheckoutController::class, 'cancel']);
+
     Route::get('user', function(){
         return auth()->user();
     });
@@ -42,5 +46,3 @@ Route::get('coupons', [CouponController::class, 'index']);
 Route::post('coupons', [CouponController::class, 'store']);
 
 // Checkout Response Routes
-Route::get('success/{checkout:order_id}/success', [CheckoutController::class, 'success']);
-Route::get('cancel/{checkout:order_id}/cancel', [CheckoutController::class, 'cancel']);

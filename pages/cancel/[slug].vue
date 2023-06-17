@@ -33,20 +33,30 @@
     const data = useRoute().params;
     const invoice = ref(null);
 
+    const token = useAuthState();
+
     definePageMeta({
-        layout: 'auth-layout'
+        layout: 'auth-layout',
+        middleware: 'auth'
     });
 
-    axios.get('/api/cancel/'+data.slug+'/cancel')
-    .then(result => {
-        invoice.value = result.data.data
-        if(invoice.value != null){
-            loadedStatus.value = "Loaded"
-        }else{
-            loadedStatus.value = "No such invoice or order exist."
+    onMounted(() => {
+        if(!token.value){
+            useRouter().push('/auth/login');
         }
-    }).catch(() => {
-        loadedStatus.value = "No such invoice or order exist"
-        throw createError({ statusCode: 404, statusMessage: 'Order not found!', fatal: true })
-    });
+        axios.get('/sanctum/csrf-cookie').then(() => {
+            axios.post('/api/cancel/'+data.slug, { message: 'cancel check' }, { headers: { 'Authorization': 'Bearer ' + token.value } })
+            .then(result => {
+                invoice.value = result.data.data
+                if(invoice.value != null){
+                    loadedStatus.value = "Loaded"
+                }else{
+                    loadedStatus.value = "No such invoice or order exist."
+                }
+            }).catch(() => {
+                loadedStatus.value = "No such invoice or order exist"
+                throw createError({ statusCode: 404, statusMessage: 'Order not found!', fatal: true })
+            });
+        })
+    })
 </script>

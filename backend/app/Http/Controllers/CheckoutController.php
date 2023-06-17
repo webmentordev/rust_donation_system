@@ -55,6 +55,7 @@ class CheckoutController extends Controller
         if($checkout->status == 'pending'){
             $checkout->status = 'completed';
             $checkout->save();
+            Checkout::where('user_id', auth()->user()->id)->where('status', 'pending')->delete();
             return response()->json([
                 'data' => $checkout->load('product','product.currency')
             ], 201);
@@ -69,6 +70,7 @@ class CheckoutController extends Controller
         if($checkout->status == 'pending'){
             $checkout->status = 'cancelled';
             $checkout->save();
+            Checkout::where('user_id', auth()->user()->id)->where('status', 'pending')->delete();
             return response()->json([
                 'data' => $checkout->load('product','product.currency')
             ], 201);

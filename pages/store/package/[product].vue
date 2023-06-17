@@ -71,7 +71,6 @@
         }
         axios.get('/sanctum/csrf-cookie')
         .then(() => {
-            console.log(token.value)
             axios.post(`/api/checkout/${data.product}`, { login: "LoginAttempt" }, { headers: { 'Authorization': 'Bearer ' + token.value } })
             .then((result) => {
                 isLoading.value = false;
