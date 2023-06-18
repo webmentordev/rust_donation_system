@@ -33,6 +33,7 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url
     
     definePageMeta({
         layout: 'auth-layout'
@@ -42,9 +43,6 @@
     const loadedStatus = ref("Loading...")
     const product = ref();
     const data = useRoute().params;
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
-
     const token = useAuthState();
 
     onMounted(() => {

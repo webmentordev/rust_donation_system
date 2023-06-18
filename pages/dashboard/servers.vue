@@ -28,17 +28,18 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url;
+
+    definePageMeta({
+        middleware: 'auth'
+    });
+    
     const name = ref('')
     const file = ref();
     const servers = ref([]);
-    
     const isLoading = ref(false);
     const isSuccess = ref(false);
-    
     const loadedStatus = ref("Loading...")
-    
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
     
     onMounted(() => {
         fetchServer();

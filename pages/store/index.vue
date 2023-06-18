@@ -17,19 +17,19 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url
     
     const servers = ref([]);
     const loadedStatus = ref("Loading...")
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
     
     definePageMeta({
-        layout: 'custom'
-    })
+        layout: 'store-layout'
+    });
     
     onMounted(() => {
         fetchServer();
     })
+    
     function fetchServer(){
         axios.get('/api/servers/fetch')
         .then(result => {

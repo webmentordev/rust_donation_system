@@ -39,11 +39,8 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
-
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url;
+    axios.defaults.baseURL = useRuntimeConfig().public.url;
     
-
     definePageMeta({
         layout: 'auth-layout',
         middleware: 'guest'
@@ -57,8 +54,8 @@
 
     const isLoading = ref(false);
     const isSuccess = ref(false);
-
     const state = useAuthState();
+
     onMounted(() => {
         if(state.value){
             useRouter().push('/dashboard');

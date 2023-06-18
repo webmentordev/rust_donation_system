@@ -13,16 +13,16 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url
     
+    definePageMeta({
+        layout: 'store-layout'
+    });
+
     const products = ref([]);
-    const config = useRuntimeConfig();
     const { slug } = useRoute().params;
     const loadedStatus = ref("Loading...")
-    axios.defaults.baseURL = config.public.url
 
-    definePageMeta({
-        layout: 'custom'
-    });
     onMounted(async () => {
         axios.get(`/api/servers/fetch/single/${slug}`)
         .then(result => {

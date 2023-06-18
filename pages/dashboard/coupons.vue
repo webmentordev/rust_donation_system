@@ -55,6 +55,11 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url;
+
+    definePageMeta({
+        middleware: 'auth'
+    });
 
     const max = ref(0);
     const code = ref("");
@@ -65,9 +70,6 @@
     const isLoading = ref(false);
     const isSuccess = ref(false);
     const loadedStatus = ref("Loading...")
-    
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
 
     onMounted(() => {
         fetchCoupon();

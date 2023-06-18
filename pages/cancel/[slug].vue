@@ -24,15 +24,11 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url
 
     const loadedStatus = ref("Loading...")
-
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
-
     const data = useRoute().params;
     const invoice = ref(null);
-
     const token = useAuthState();
 
     definePageMeta({

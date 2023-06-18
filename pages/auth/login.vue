@@ -25,11 +25,8 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
-
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url;
+    axios.defaults.baseURL = useRuntimeConfig().public.url;
     
-
     definePageMeta({
         layout: 'auth-layout',
         middleware: 'guest'
@@ -37,10 +34,8 @@
 
     const email = ref("");
     const password = ref("");
-
     const token = useCookie('token');
     const state = useAuthState();
-
     const isLoading = ref(false);
 
     onMounted(() => {

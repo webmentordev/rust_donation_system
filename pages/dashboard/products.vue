@@ -46,25 +46,24 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
+    axios.defaults.baseURL = useRuntimeConfig().public.url;
 
+    definePageMeta({
+        middleware: 'auth'
+    });
+    
     const name = ref("")
     const price = ref(0);
     const server_id = ref("");
     const file = ref("");
     const currency = ref("");
     const description = ref("");
-    
     const servers = ref([]);
     const products = ref([]);
-    
     const isLoading = ref(false);
     const isSuccess = ref(false);
-    
     const loadedStatus = ref("Loading...")
     
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
-
     onMounted(() => {
         fetchServer();
         fetchProducts();

@@ -1,7 +1,7 @@
 <template>
     <nav class="w-full sticky top-0 left-0 z-50 bg-white border-b border-gray-200">
-        <div class="max-w-6xl m-auto py-6 px-4 flex items-center justify-between">
-            <nuxt-link to="/">Home</nuxt-link>
+        <div class="max-w-6xl m-auto py-3 px-4 flex items-center justify-between">
+            <nuxt-link to="/"><nuxt-img src="https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg" width="35"></nuxt-img></nuxt-link>
             <ul class="flex items-center font-semibold">
                 <nuxt-link class="ml-8" to="/">Home</nuxt-link>
                 <nuxt-link class="ml-8" to="/store">Store</nuxt-link>
@@ -18,9 +18,7 @@
 <script setup>
     import axios from 'axios';
     axios.defaults.withCredentials = true;
-
-    const config = useRuntimeConfig();
-    axios.defaults.baseURL = config.public.url
+    axios.defaults.baseURL = useRuntimeConfig().public.url
     
     const auth = useAuthState();
     const authState = ref(false);
@@ -32,7 +30,8 @@
             auth.value = cookie
             authState.value = true
         }
-    })
+    });
+
     const logoutHandler = () => {
         isLoading.value = true;
         const product = { name: 'Logged Out' };
