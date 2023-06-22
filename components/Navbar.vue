@@ -6,7 +6,7 @@
                 <nuxt-link class="ml-8" to="/">Home</nuxt-link>
                 <nuxt-link class="ml-8" to="/store">Store</nuxt-link>
                 <nuxt-link v-if="auth" class="ml-8" to="/dashboard">Dashboard</nuxt-link>
-                <button v-if="auth" @click="logoutHandler" class="ml-8">Logout</button>
+                <button v-if="auth" @click="logoutHandler" class="ml-6 px-4 py-2 bg-rust text-white">Logout</button>
                 <nuxt-link v-if="!auth" class="ml-8" to="/auth/login">Login</nuxt-link>
                 <nuxt-link v-if="!auth" class="ml-8" to="/auth/signup">Signup</nuxt-link>
             </ul>

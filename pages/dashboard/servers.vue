@@ -1,16 +1,20 @@
 <template>
     <section class="w-full">
         <h1 class="text-3xl font-semibold pb-3 border-b border-gray-100">Servers List</h1>
-        <form @submit.prevent="uploadHandler" enctype="multipart/form-data" class="flex items-center py-6">
+        <ErrorMessage v-if="errorMessage" :text="errorMessage" />
+        <form @submit.prevent="uploadHandler" enctype="multipart/form-data" class="flex items-center py-3 mb-6">
             <Success v-if="isSuccess" text="Server has been created!" />
             <Loading v-if="isLoading" text="Posting data..." />
+            
             <div class="w-full mr-2">
                 <Label text="Server name" />
                 <Input placeholder="Server Name" v-model="name" required />
+                <ErrorMessage v-if="errors" :text="errors.name" />
             </div>
             <div class="w-full mr-2">
                 <Label text="Server Image <500KB* (825x825)" />
                 <Input type="file" @change="uploadFile" accept="image/*" required />
+                <ErrorMessage v-if="errors" :text="errors.image" />
             </div>
             <div class="mt-6">
                 <Button text="Create"/>
@@ -40,6 +44,8 @@
     const isLoading = ref(false);
     const isSuccess = ref(false);
     const loadedStatus = ref("Loading...")
+    const errors = ref(null);
+    const errorMessage = ref(null);
     
     onMounted(() => {
         fetchServer();
@@ -68,6 +74,8 @@
     function uploadHandler(){
         isLoading.value = true;
         isSuccess.value = false;
+        errors.value = null;
+        errorMessage.value = null;
         const formData = {
             name: name.value,
             image: file.value
@@ -83,11 +91,11 @@
                 setTimeout(() => {
                     isSuccess.value = false;
                 }, 3000);
-            }).catch(() => {
+            }).catch((error) => {
                 isLoading.value = false;
+                errors.value = error.response.data.errors;
+                errorMessage.value = error.response.data.message;
             });
-        }).catch((error) => {
-            error.response.data.message
         });
     }
 </script>

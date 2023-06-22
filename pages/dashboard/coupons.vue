@@ -13,18 +13,22 @@
                     <div class="w-full mb-3">
                         <Label text="Coupon Code" />
                         <Input placeholder="Coupon Code" v-model="code" required />
+                        <ErrorMessage v-if="errors" :text="errors.code" />
                     </div>
                     <div class="w-full mb-3">
                         <Label text="Percentage Off (100% is FREE)" />
                         <Input type="number" placeholder="% Off" v-model="percent" step="0.01" required />
+                        <ErrorMessage v-if="errors" :text="errors.percent" />
                     </div>
                     <div class="w-full mb-3">
                         <Label text="Currency" />
                         <CurrencyItem v-model="currency" required />
+                        <ErrorMessage v-if="errors" :text="errors.currency" />
                     </div>
                     <div class="w-full mb-3">
                         <Label text="Max Redemption (leave empty for infinite)" />
                         <Input type="number" placeholder="Max Redemption" v-model="max" />
+                        <ErrorMessage v-if="errors" :text="errors.max" />
                     </div>
                     <Button type="submit" class="w-full" text="Create"/>
                 </div>
@@ -69,7 +73,9 @@
     const coupons = ref([]);
     const isLoading = ref(false);
     const isSuccess = ref(false);
-    const loadedStatus = ref("Loading...")
+    const loadedStatus = ref("Loading...");
+    const errors = ref(null);
+    const errorMessage = ref(null);
 
     onMounted(() => {
         fetchCoupon();
@@ -90,6 +96,8 @@
     function uploadHandler(){
         isLoading.value = true;
         isSuccess.value = false;
+        errors.value = null;
+        errorMessage.value = null;
         const formData = {
             code: code.value,
             max: max.value,
@@ -105,11 +113,11 @@
                 setTimeout(() => {
                     isSuccess.value = false;
                 }, 3000);
-            }).catch(() => {
+            }).catch((error) => {
                 isLoading.value = false;
+                errors.value = error.response.data.errors;
+                errorMessage.value = error.response.data.message;
             });
-        }).catch((error) => {
-            console.log(error)
-        });
+        })
     }
 </script>

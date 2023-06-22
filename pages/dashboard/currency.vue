@@ -6,9 +6,11 @@
                 <Loading v-if="isLoading" text="Posting data..." />
                 <div class="w-full mr-2">
                     <Input placeholder="Currency Code (like USD, EUR)" v-model="code" required />
+                    <ErrorMessage v-if="errors" :text="errors.code" />
                 </div>
                 <div class="w-full mr-2">
                     <Input placeholder="Currency Symbol (like $)" v-model="symbol" required />
+                    <ErrorMessage v-if="errors" :text="errors.symbol" />
                 </div>
                 <Button type="submit" text="Create"/>
             </form>
@@ -47,6 +49,8 @@
     const isLoading = ref(false);
     const isSuccess = ref(false);
     const loadedStatus = ref("Loading...")
+    const errors = ref(null);
+    const errorMessage = ref(null);
     
     onMounted(() => {
         fetchCurrency();
@@ -67,6 +71,8 @@
     function uploadHandler(){
         isLoading.value = true;
         isSuccess.value = false;
+        errors.value = null;
+        errorMessage.value = null;
         const formData = {
             code: code.value,
             symbol: symbol.value,
@@ -80,11 +86,11 @@
                 setTimeout(() => {
                     isSuccess.value = false;
                 }, 3000);
-            }).catch(() => {
+            }).catch((error) => {
                 isLoading.value = false;
+                errors.value = error.response.data.errors;
+                errorMessage.value = error.response.data.message;
             });
-        }).catch((error) => {
-            console.log(error)
-        });
+        })
     }
 </script>

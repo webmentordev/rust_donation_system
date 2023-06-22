@@ -28,7 +28,7 @@ class ProductController extends Controller
             'name' => 'required|max:255|unique:products,name',
             'image' => 'required|image|mimes:png,jpg,jpeg,webp|max:255',
             'server_id' => 'required|numeric',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:1',
             'description' => 'required',
             'currency' => 'required|numeric|max:3',
         ]);

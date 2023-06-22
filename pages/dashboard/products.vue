@@ -7,6 +7,7 @@
                 <div class="w-full mr-2">
                     <Label text="Product name" />
                     <Input placeholder="Product Name" v-model="name" required />
+                    <ErrorMessage v-if="errors" :text="errors.name" />
                 </div>
                 <div class="w-full mr-2">
                     <Label text="Server" />
@@ -15,22 +16,27 @@
                         <option v-if="servers.length" v-for="(server, index) in servers" :key="index" :value="server.id">{{ server.name }}</option>
                         <option v-else value="">Please create a server first</option>
                     </Select>
+                    <ErrorMessage v-if="errors" :text="errors.server_id" />
                 </div>
                 <div class="w-full">
                     <Label text="Product Currency" />
                     <CurrencyItem v-model="currency" required />
+                    <ErrorMessage v-if="errors" :text="errors.currency" />
                 </div>
                 
                 <div class="w-full">
                     <Label text="Product Price" />
                     <Input type="number" v-model="price" step="0.01" required />
+                    <ErrorMessage v-if="errors" :text="errors.price" />
                 </div>
                 <div class="w-full col-span-2">
                     <Label text="Product Image <500KB*" />
                     <Input type="file" @change="uploadFile" accept="image/*" required />
+                    <ErrorMessage v-if="errors" :text="errors.image" />
                 </div>
                 <div class="w-full col-span-2 mb-16">
                     <Quill v-model:content="description"/>
+                    <ErrorMessage v-if="errors" :text="errors.description" />
                 </div>
                 <div class="w-full">
                     <Button type="submit" text="Create Product"/>
@@ -63,6 +69,8 @@
     const isLoading = ref(false);
     const isSuccess = ref(false);
     const loadedStatus = ref("Loading...")
+    const errors = ref(null);
+    const errorMessage = ref(null);
     
     onMounted(() => {
         fetchServer();
@@ -104,6 +112,8 @@
     function uploadHandler(){
         isLoading.value = true;
         isSuccess.value = false;
+        errors.value = null;
+        errorMessage.value = null;
         const formData = {
             name: name.value,
             image: file.value,
@@ -123,13 +133,11 @@
                 setTimeout(() => {
                     isSuccess.value = false;
                 }, 3000);
-
             }).catch((error) => {
                 isLoading.value = false;
-                console.log(error)
+                errors.value = error.response.data.errors;
+                errorMessage.value = error.response.data.message;
             });
-        }).catch((error) => {
-            console.log(error)
         });
     }
 </script>

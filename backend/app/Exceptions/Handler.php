@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -26,5 +27,18 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        $errors = [];
+        foreach ($exception->errors() as $field => $messages) {
+            $errors[$field] = implode(' ', $messages);
+        }
+
+        return response()->json([
+            'errors' => $errors,
+            'message' => 'The given data is invalid.'
+        ], $exception->status);
     }
 }

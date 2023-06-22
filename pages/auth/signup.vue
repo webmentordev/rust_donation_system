@@ -3,26 +3,32 @@
         <div class="max-w-2xl w-fit m-auto px-4">
             <div class="w-full p-6 bg-white rounded-lg">
                 <h1 class="text-3xl font-semibold mb-6">Create Account</h1>
+                <ErrorMessage v-if="errorMessage" :text="errorMessage" />
                 <form @submit.prevent="signupHandler" class="flex flex-col mb-3">
                 <div class="w-full mr-2 mb-3">
                     <Label text="Username" />
-                    <Input placeholder="Username" v-model="name" required />
+                    <Input placeholder="Username" v-model="name" />
+                    <ErrorMessage v-if="errors" :text="errors.name" />
                 </div>
                 <div class="w-full mr-2 mb-3">
                     <Label text="Email Address" />
-                    <Input type="email" placeholder="Email Address" v-model="email" required />
+                    <Input type="email" placeholder="Email Address" v-model="email" />
+                    <ErrorMessage v-if="errors" :text="errors.email" />
                 </div>
                 <div class="w-full mr-2 mb-3">
                     <Label text="Steam 64_ID" />
-                    <Input placeholder="Steam 64_ID" v-model="steam_id" required />
+                    <Input type="number" placeholder="Steam 64_ID" v-model="steam_id" />
+                    <ErrorMessage v-if="errors" :text="errors.steam_id" />
                 </div>
                 <div class="w-full mb-3">
                     <Label text="Password" />
-                    <Input type="password" placeholder="Password" v-model="password" required />
+                    <Input type="password" placeholder="Password" v-model="password" />
+                    <ErrorMessage v-if="errors" :text="errors.password" />
                 </div>
                 <div class="w-full mb-3">
                     <Label text="Confirm Password" />
-                    <Input type="password" placeholder="Confirm Password" v-model="c_password" required />
+                    <Input type="password" placeholder="Confirm Password" v-model="c_password" />
+                    <ErrorMessage v-if="errors" :text="errors.password_confirmation" />
                 </div>
                 <div class="w-full">
                     <Button type="submit" text="Register"/>
@@ -51,9 +57,10 @@
     const password = ref("");
     const c_password = ref("");
     const steam_id = ref("");
-
     const isLoading = ref(false);
     const isSuccess = ref(false);
+    const errors = ref(null);
+    const errorMessage = ref(null);
     const state = useAuthState();
 
     onMounted(() => {
@@ -65,6 +72,8 @@
     const signupHandler = () => {
         isLoading.value = true;
         isSuccess.value = false;
+        errors.value = null;
+        errorMessage.value = null;
         const formData = {
             email: email.value,
             name: name.value,
@@ -83,11 +92,9 @@
                 }, 3000);
             }).catch((error) => {
                 isLoading.value = false;
-                console.log(error);
+                errors.value = error.response.data.errors;
+                errorMessage.value = error.response.data.message;
             });
-        }).catch((error) => {
-            isLoading.value = false;
-            console.log(error.response.data.message)
         });
     }
 </script>

@@ -13,8 +13,18 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|unique:users,email|max:255|email',
             'password' => 'required|string|confirmed|min:5|max:255',
-            'steam_id' => 'required|numeric|unique:users,steam_id|min:17'
+            'steam_id' => 'required|numeric|unique:users,steam_id'
         ]);
+
+        if(strlen((string)$request->steam_id) != 17){
+            return response()->json([
+                "message" => 'Invalid Steam format',
+                "errors" => [
+                    "steam_id" => "Steam id lenght should be 17"
+                ]
+            ], 422);
+        }
+
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
