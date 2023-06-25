@@ -15,9 +15,11 @@
                         <Input type="password" placeholder="Password" v-model="password" required />
                         <ErrorMessage v-if="errors" :text="errors.password" />
                     </div>
-                    <div class="w-full">
+                    <div class="w-full mb-3 flex items-center justify-between">
                         <Button type="submit" text="Login Now"/>
+                        <nuxt-link to="/auth/forgot-password" class="underline text-rust">Forgot password?</nuxt-link>
                     </div>
+                    <p class="text-center">Already have an account? <nuxt-link to="/auth/signup" class="underline text-rust">Register Now</nuxt-link></p>
                 </form>
                 <Loading v-if="isLoading" text="Logging In..." />
             </div>
